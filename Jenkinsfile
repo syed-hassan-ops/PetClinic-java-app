@@ -40,15 +40,14 @@ pipeline{
                 REMOTE_HOSTNAME = "192.168.56.144"
             }
             steps{
-                withCredentials([usernamePassword(credentialsId: "ansible", usernameVariable: 'REMOTE_USER', passwordVariable: 'REMOTE_PASSWORD')]){
+                withCredentials([usernamePassword(credentialsId: 'ansible', usernameVariable: 'REMOTE_USER', passwordVariable: 'REMOTE_PASSWORD')]) {
                     sh '''
-                    sshpass -p "$REMOTE_PASSWD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME <<EOF
+                    sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME <<EOF
                     pwd
                     ls
                     EOF
                     '''
                 }
-
             }
         }
     }
