@@ -1,6 +1,6 @@
 FROM  openjdk:11
 RUN mkdir -p /app
-COPY target/*.jar /app
+COPY . /app
 WORKDIR /app
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ java -jar target/app.jar ]
 EXPOSE 8080
