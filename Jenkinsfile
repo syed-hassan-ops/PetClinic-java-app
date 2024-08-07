@@ -22,7 +22,7 @@ pipeline{
         stage("Docker build"){
             steps{
                 script{
-                    image = docker.build("markmama/initsixcloud:$BUILD_NUMBER", .)
+                    image = docker.build("markmama/initsixcloud:$BUILD_NUMBER")
                 }
             }
         }
