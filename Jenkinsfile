@@ -32,7 +32,6 @@ pipeline{
                     docker.withRegistry("https://registry.hub.docker.com/", "DockerHub"){
                     image.push()
                     }
-
                 }
             }
         }

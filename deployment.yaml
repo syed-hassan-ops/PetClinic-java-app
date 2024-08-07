@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petshop
+  labels:
+    app: pet
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pet
+  template:
+    metadata:
+      name: petshop
+      labels:
+        app: pet
+    spec:
+      containers:
+        - name: petshop
+          image: markmama/initsixcloud:20
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petshop-service
+  labels:
+    app: pet 
+spec:
+  selector:
+    app: pet
+  ports:
+    - port: 8008
+      targetPort: 8080
+      nodePort: 30087
+  type: NodePort
+    
