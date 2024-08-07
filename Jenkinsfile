@@ -42,10 +42,13 @@ pipeline{
             steps{
                 withCredentials([usernamePassword(credentialsId: 'ansible', usernameVariable: 'REMOTE_USER', passwordVariable: 'REMOTE_PASSWORD')]) {
                     sh '''
-                    sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME <<EOF
-                    pwd
-                    ls
-                    EOF
+
+                    sshpass -p "$REMOTE_PASSWORD" scp -o StrictHostKeyChecking=no ./deployment.yaml $REMOTE_USER@$REMOTE_HOSTNAME:/tmp
+
+                    sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME << 'EOF'
+                    cd /tmp
+                    kubectl apply -f deployment.yaml
+                    << 'EOF'
                     '''
                 }
             }
