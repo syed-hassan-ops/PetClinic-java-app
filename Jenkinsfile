@@ -22,7 +22,10 @@ pipeline{
         stage("Docker build"){
             steps{
                 script{
-                    image = docker.build("markmama/initsixcloud:$BUILD_NUMBER")
+                    def image = docker.build("markmama/initsixcloud:$BUILD_NUMBER").id
+                    def oldText = "markmama/initsixcloud:.*"
+                    def newText = image
+                    sh "sed -i 's|${oldText}|${newText}|g' deployment.yaml"
                 }
             }
         }
@@ -42,7 +45,7 @@ pipeline{
             steps{
                 withCredentials([usernamePassword(credentialsId: 'ansible', usernameVariable: 'REMOTE_USER', passwordVariable: 'REMOTE_PASSWORD')]) {
                     sh '''
-
+                    
                     sshpass -p "$REMOTE_PASSWORD" scp -o StrictHostKeyChecking=no ./deployment.yaml $REMOTE_USER@$REMOTE_HOSTNAME:/tmp
 
                     sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME << 'EOF'
