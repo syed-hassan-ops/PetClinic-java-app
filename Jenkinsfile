@@ -22,7 +22,7 @@ pipeline{
         stage("Docker build"){
             steps{
                 script{
-                    def image = docker.build("markmama/initsixcloud:$BUILD_NUMBER").id
+                    def image = docker.build("markmama/initsixcloud:$BUILD_NUMBER")
                     def oldText = "markmama/initsixcloud:.*"
                     def newText = image
                     sh "sed -i 's|${oldText}|${newText}|g' deployment.yaml"
