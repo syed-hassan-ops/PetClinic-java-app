@@ -24,7 +24,7 @@ pipeline{
                 script{
                     image = docker.build("markmama/initsixcloud:$BUILD_NUMBER")
                     def oldText = "markmama/initsixcloud:.*"
-                    def newText = image
+                    def newText = "markmama/initsixcloud:$BUILD_NUMBER"
                     sh "sed -i 's|${oldText}|${newText}|g' deployment.yaml"
                 }
             }
