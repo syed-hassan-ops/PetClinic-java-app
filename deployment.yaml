@@ -5,7 +5,6 @@ metadata:
   labels:
     app: pet
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: pet
@@ -17,9 +16,17 @@ spec:
     spec:
       containers:
         - name: petshop
-          image: markmama/initsixcloud:20
+          image: markmama/initsixcloud:30
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "500Mi"
+            limits:
+              cpu: "1"
+              memory: '1G'              
           ports:
             - containerPort: 8080
+      
 ---
 apiVersion: v1
 kind: Service
