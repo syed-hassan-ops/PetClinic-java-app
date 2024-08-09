@@ -47,10 +47,12 @@ pipeline{
                     sh '''
                     
                     sshpass -p "$REMOTE_PASSWORD" scp -o StrictHostKeyChecking=no ./deployment.yaml $REMOTE_USER@$REMOTE_HOSTNAME:/tmp
+                    sshpass -p "$REMOTE_PASSWORD" scp -o StrictHostKeyChecking=no ./HPA.yaml $REMOTE_USER@$REMOTE_HOSTNAME:/tmp
 
                     sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOSTNAME << 'EOF'
                     cd /tmp
                     kubectl apply -f deployment.yaml
+                    kubectl apply -f HPA.yaml
                     << 'EOF'
                     '''
                 }
